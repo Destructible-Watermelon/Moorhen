@@ -8,6 +8,9 @@ Moorhen programs are made of english words.
 Each word does one operation. Words are processed from left to right until the direction of the pointer changes.
 
 Programs operate on a single stack of unbound integers.
+
+At the start of the program, it takes input through an unbounded amount of arguments. At the end, it will output the stack, each item on stack joined by spaces. It doesn't do ascii output.
+
 There are 7 operations in the following order.
 
 * Push a zero to the stack
