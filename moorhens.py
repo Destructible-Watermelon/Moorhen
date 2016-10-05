@@ -19,6 +19,7 @@ class Interpreter(object):
             self.roll,
             self.duplicate,
             self.jump,
+            self.conjump,
             self.reverse,
             self.noOp,
             self.output,
@@ -56,12 +57,13 @@ class Interpreter(object):
             self.stack.append(0)
     def peek(self):
         return bool(self.stack) and self.stack[-1]
-    def jump(self):
+    def conjump(self):
 	if self.peek():
 	    self.pointer += self.direction
+    def jump(self):
+        self.pointer += self.direction
     def reverse(self):
-        if self.peek():
-            self.direction *= -1
+        self.direction *= -1
     def output(self):
 	print self.peek()
 
