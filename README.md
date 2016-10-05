@@ -15,6 +15,8 @@ There are 7 operations in the following order.
 
 * Push a zero to the stack
 
+* Pop the top value of the stack
+
 * Increment the top value of the stack
 
 * Decrement the top value of the stack
@@ -23,10 +25,16 @@ There are 7 operations in the following order.
 
 * Duplicate the top value of the stack
 
+* Skip the next word to be executed
+
 * If the top of the stack is non-zero skip the next word to be executed
 
-* If the top of the stack is non-zero change the direction of the pointer
+* Change the direction of the pointer
 
-A word's operation is its md5 hash modulo 7
+* Do nothing
+
+* Output the top of the stack
+
+A word's operation is its md5 hash modulo 12
 
 The program halts execution when it exits the program space.
