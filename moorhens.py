@@ -57,8 +57,8 @@ class Interpreter(object):
 
 
 if __name__ == "__main__":
-    dict = open("ospd.txt").read().split()
-    code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%7),filter(lambda x:x in dict,open(sys.argv[1]).read().split()))
+    word_dict = open("ospd.txt").read().split()
+    code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%7),filter(lambda x:x.lower() in word_dict,open(sys.argv[1]).read().split()))
     interpreter = Interpreter(code, *sys.argv[2:])
     while interpreter.step()==None:pass
     print ' '.join(str(x) for x in interpreter.stack)
