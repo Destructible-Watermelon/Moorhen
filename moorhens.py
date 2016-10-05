@@ -53,7 +53,7 @@ class Interpreter(object):
 	    self.pointer += self.direction
     def reverse(self):
         if self.peek():
-            self.direction *= 1
+            self.direction *= -1
 
 
 if __name__ == "__main__":
