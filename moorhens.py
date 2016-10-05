@@ -13,12 +13,15 @@ class Interpreter(object):
         if 0 > self.pointer or self.pointer >= len(self.source):return False
         [
             self.push,
+            self.pop,
             self.increment,
             self.decrement,
             self.roll,
             self.duplicate,
             self.jump,
             self.reverse,
+            self.noOp,
+            self.output,
         ][self.source[self.pointer]]()
         self.pointer += self.direction
         return True
@@ -29,6 +32,10 @@ class Interpreter(object):
     # Stack functions
     def push(self):
         self.stack.append(0)
+    def pop(self):
+        self.stack.pop()
+    def noOp(self):
+	pass
     def increment(self):
         if self.stack:
             self.stack[-1] += 1
@@ -55,7 +62,8 @@ class Interpreter(object):
     def reverse(self):
         if self.peek():
             self.direction *= -1
-
+    def output(self):
+	print self.peek()
 
 if __name__ == "__main__":
     wordList = open("ospd.txt").read().split()
