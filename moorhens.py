@@ -21,6 +21,7 @@ class Interpreter(object):
             self.reverse,
         ][self.source[self.pointer]]()
         self.pointer += self.direction
+        return True
 
     def __str__(self):
         return ' '.join(str(x) for x in self.stack)
@@ -57,11 +58,11 @@ class Interpreter(object):
 
 
 if __name__ == "__main__":
-    dict = open("ospd.txt").read().split()
+    wordList = open("ospd.txt").read().split()
     if len(sys.argv) < 2:
         print "Please provide source file."
     else:
-        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%7),filter(lambda x:x in dict,open(sys.argv[1]).read().split()))
+        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%7),filter(lambda x:x.lower() in wordList,open(sys.argv[1]).read().split()))
         interpreter = Interpreter(code, *sys.argv[2:])
-        while interpreter.step()==None:pass
+        while interpreter.step():pass
         print interpreter
