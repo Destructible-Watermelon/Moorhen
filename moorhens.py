@@ -11,26 +11,21 @@ class Interpreter(object):
 
     def step(self):
         if 0 > self.pointer or self.pointer >= len(self.source):return False
-        command = self.source[self.pointer]
-        if command == 0:
-            self.push()
-        elif command == 1:
-            self.increment()
-        elif command == 2:
-            self.decrement()
-        elif command == 3:
-            self.roll()
-        elif command == 4:
-            self.duplicate()
-        elif command == 5:
-            if self.peek():
-                self.pointer += self.direction
-        elif command == 6:
-            if self.peek():
-                self.direction *= -1
+        [
+            self.push,
+            self.increment,
+            self.decrement,
+            self.roll,
+            self.duplicate,
+            self.jump,
+            self.reverse,
+        ][self.source[self.pointer]]()
         self.pointer += self.direction
 
+    def __str__(self):
+        return ' '.join(str(x) for x in self.stack)
 
+    # Stack functions
     def push(self):
         self.stack.append(0)
     def increment(self):
@@ -53,12 +48,20 @@ class Interpreter(object):
             self.stack.append(0)
     def peek(self):
         return bool(self.stack) and self.stack[-1]
-
+    def jump(self):
+	if self.peek():
+	    self.pointer += self.direction
+    def reverse(self):
+        if self.peek():
+            self.direction *= 1
 
 
 if __name__ == "__main__":
     dict = open("ospd.txt").read().split()
-    code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%7),filter(lambda x:x in dict,open(sys.argv[1]).read().split()))
-    interpreter = Interpreter(code, *sys.argv[2:])
-    while interpreter.step()==None:pass
-    print ' '.join(str(x) for x in interpreter.stack)
+    if len(sys.argv) < 2:
+        print "Please provide source file."
+    else:
+        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%7),filter(lambda x:x in dict,open(sys.argv[1]).read().split()))
+        interpreter = Interpreter(code, *sys.argv[2:])
+        while interpreter.step()==None:pass
+        print interpreter
