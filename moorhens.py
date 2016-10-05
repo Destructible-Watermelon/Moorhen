@@ -4,7 +4,6 @@ import hashlib
 class Interpreter(object):
     def __init__(self, source, *args):
         self.source = source
-        print self.source
         self.pointer = 0
         self.direction = 1
         self.stack = map(int,args)
@@ -61,5 +60,5 @@ if __name__ == "__main__":
     dict = open("ospd.txt").read().split()
     code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%7),filter(lambda x:x in dict,open(sys.argv[1]).read().split()))
     interpreter = Interpreter(code, *sys.argv[2:])
-    while interpreter.step()==None:print ' '.join(str(x) for x in interpreter.stack)
+    while interpreter.step()==None:pass
     print ' '.join(str(x) for x in interpreter.stack)
