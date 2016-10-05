@@ -72,7 +72,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print "Please provide source file."
     else:
-        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%7),filter(lambda x:x.lower() in wordList,open(sys.argv[1]).read().split()))
+        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%12),filter(lambda x:x.lower() in wordList,open(sys.argv[1]).read().split()))
         interpreter = Interpreter(code, *sys.argv[2:])
         while interpreter.step():pass
         print interpreter
