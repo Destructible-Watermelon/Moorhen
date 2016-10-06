@@ -1,12 +1,13 @@
 import sys
 import hashlib
+from optparse import OptionParser
 
 class Interpreter(object):
     def __init__(self, source, *args):
         self.source = source
         self.pointer = 0
         self.direction = 1
-        self.stack = map(int,args)
+        self.stack = args
 
 
     def step(self):
@@ -27,8 +28,16 @@ class Interpreter(object):
         self.pointer += self.direction
         return True
 
+    #IO
     def __str__(self):
+        #Depreciated
         return ' '.join(str(x) for x in self.stack)
+
+    def ascii(self):
+        return ''.join(map(lambda x:chr(x%128),self.stack))
+
+    def decimal(self):
+        return ' '.join(map(str,self.stack))
 
     # Stack functions
     def push(self):
@@ -68,11 +77,17 @@ class Interpreter(object):
 	print self.peek()
 
 if __name__ == "__main__":
+    parser = OptionParser()
+    parser.add_option("-a","--ASCII-in",action="store_true",dest="ascii_in",help="Output as ASCII")
+    parser.add_option("-A","--ASCII-out",action="store_true",dest="ascii_out",help="Input arguments as ASCII")
+    parser.add_option("-c","--ASCII-io",action="store_true",dest="ascii_io",help="Input and output as ASCII")
+    options, args = parser.parse_args()
     wordList = open("ospd.txt").read().split()
-    if len(sys.argv) < 2:
+    if not args:
         print "Please provide source file."
     else:
-        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%12),filter(lambda x:x.lower() in wordList,open(sys.argv[1]).read().split()))
-        interpreter = Interpreter(code, *sys.argv[2:])
+        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%12),filter(lambda x:x.lower() in wordList,open(args[0]).read().split()))
+        stacks = map(ord," ".join(args[1:])) if options.ascii_in or options.ascii_io else map(int,args[1:])
+        interpreter = Interpreter(code, *stacks)
         while interpreter.step():pass
-        print interpreter
+        print interpreter.ascii() if options.ascii_out or options.ascii_io else interpreter.decimal()
