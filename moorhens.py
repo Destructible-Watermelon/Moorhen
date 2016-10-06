@@ -81,12 +81,19 @@ if __name__ == "__main__":
     parser.add_option("-a","--ASCII-in",action="store_true",dest="ascii_in",help="Output as ASCII")
     parser.add_option("-A","--ASCII-out",action="store_true",dest="ascii_out",help="Input arguments as ASCII")
     parser.add_option("-c","--ASCII-io",action="store_true",dest="ascii_io",help="Input and output as ASCII")
+    parser.add_option("-R","--read",action="store_true",dest="reading",help="Create a breif description of what the program does")
     options, args = parser.parse_args()
     wordList = open("ospd.txt").read().split()
     if not args:
         print "Please provide source file."
+    elif options.reading:
+        source = open(args[0]).read().split()
+        ops = ["Push","Pop","Increment","Decrement","Roll","Duplicate","Jump","IfJump","Reverse","No-op","Out"]
+        maximum = max(map(len,source))
+        for word in source:
+            print word.ljust(maximum)+":",ops[int(int(hashlib.md5(word).hexdigest(),16)%11)]
     else:
-        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%12),filter(lambda x:x.lower() in wordList,open(args[0]).read().split()))
+        code = map(lambda x:int(int(hashlib.md5(x).hexdigest(),16)%11),filter(lambda x:x.lower() in wordList,open(args[0]).read().split()))
         stacks = map(ord," ".join(args[1:])) if options.ascii_in or options.ascii_io else map(int,args[1:])
         interpreter = Interpreter(code, *stacks)
         while interpreter.step():pass
