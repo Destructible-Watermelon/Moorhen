@@ -87,7 +87,7 @@ if __name__ == "__main__":
     if not args:
         print "Please provide source file."
     elif options.reading:
-        source = open(args[0]).read().split()
+        source = filter(lambda x:x.lower() in wordList,open(args[0]).read().split())
         ops = ["Push","Pop","Increment","Decrement","Roll","Duplicate","Jump","IfJump","Reverse","No-op","Out"]
         maximum = max(map(len,source))
         for word in source:
