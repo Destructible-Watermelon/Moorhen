@@ -7,7 +7,7 @@ class Interpreter(object):
         self.source = source
         self.pointer = 0
         self.direction = 1
-        self.stack = args
+        self.stack = list(args)
 
 
     def step(self):
