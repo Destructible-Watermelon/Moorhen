@@ -11,7 +11,7 @@ Programs operate on a single stack of unbound integers.
 
 At the start of the program, it takes input through an unbounded amount of arguments. At the end, it will output the stack, each item on stack joined by spaces. It doesn't do ascii output.
 
-There are 7 operations in the following order.
+There are 11 operations in the following order.
 
 * Push a zero to the stack
 
@@ -35,6 +35,6 @@ There are 7 operations in the following order.
 
 * Output the top of the stack
 
-A word's operation is its md5 hash modulo 12
+A word's operation is its md5 hash modulo 11
 
 The program halts execution when it exits the program space.
